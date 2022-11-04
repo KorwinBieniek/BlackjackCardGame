@@ -23,12 +23,14 @@ class Hand:
         self.cards.append(random.choice(self.deck.card_list))
 
     def __str__(self):
-        pass
+        return ', '.join(self.cards)
 
     def get_key_from_value(self, d, val):
         return [k for k, v in d.items() if v == val]
 
-hand = Hand()
-hand.add_to_hand()
-hand.add_to_hand()
-print(hand.get_value())
+if __name__ == '__main__':
+    hand = Hand()
+    hand.add_to_hand()
+    hand.add_to_hand()
+    print(hand.get_value())
+    print(hand)
