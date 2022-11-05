@@ -1,5 +1,6 @@
 from deck import Deck
 from hand import Hand
+from sys import exit
 
 #Testing
 from player import Player
@@ -17,20 +18,21 @@ class Game:
 
     def start_game(self):
         while self.player.balance > 0:
+            self.player.balance = round(self.player.balance, 2)
             self.player.hand = Hand()
             self.dealer.hand = Hand()
             choice = input(f'You are starting with ${self.player.balance}. Would you like to play a hand? ')
             if choice != 'yes':
                 print(f'You left the table with ${self.player.balance}')
-                break
+                exit(0)
 
             self.bet = input('Place your bet: $')
-            while not self.bet.isdigit() or int(self.bet) < 1 or int(self.bet) > self.player.balance:
+            while not self.bet.replace('.', '', 1).isdigit() or float(self.bet) < 1 or float(self.bet) > self.player.balance:
                 print(f'The minimum bet is: $1 and the maximum bet cannot exceed your balance ({self.player.balance})')
                 self.bet = input('Place your bet: $')
 
-            self.bet = int(self.bet)
-            print(self.bet)
+            self.bet = float(self.bet)
+            #print(self.bet)
 
             self.player.hand.add_to_hand()
             self.player.hand.add_to_hand()
@@ -80,6 +82,9 @@ class Game:
             elif player.hand.get_value() == 21 and dealer.hand.get_value() != 21:
                 print(f'Blackjack! You win {self.bet * 1.5}')
                 self.player.balance += self.bet * 1.5
+            elif dealer.hand.get_value() > 21:
+                print(f'The dealer has over 21 points, you win ${self.bet} :)')
+                self.player.balance += self.bet
             elif player.hand.get_value() > dealer.hand.get_value():
                 print(f'The dealer busts, you win ${self.bet} :)')
                 self.player.balance += self.bet
