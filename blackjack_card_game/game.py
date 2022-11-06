@@ -13,7 +13,7 @@ from dealer import Dealer
 
 class Game:
     """
-    Class that represents a Blackjack game
+    Class that represents a game of Blackjack
     """
     MINIMUM_BET = 1
 
